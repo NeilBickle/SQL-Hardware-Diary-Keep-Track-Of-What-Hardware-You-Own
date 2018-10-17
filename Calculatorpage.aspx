@@ -49,6 +49,27 @@
         a.Close();
 
     }
+
+    void btnDelete_Click(Object s, EventArgs e)
+    {
+        String c = "Provider=Microsoft.ACE.OLEDB.12.0;" +
+            "Data Source=" + Server.MapPath("Numbers1.accdb") + ";";
+        OleDbConnection a = new OleDbConnection(c);
+        OleDbCommand cmd;
+        OleDbDataReader g;
+        String b = "DELETE FROM [Table1] WHERE [Identify]= " + txtNum.Value;
+        cmd = new OleDbCommand(b, a);
+        a.Open();
+        g = cmd.ExecuteReader();
+        while (g.Read())
+        {
+
+            txtNum.Value = g["Identify"].ToString();
+        }
+        parResult.InnerHtml = "Your Record Has Been Deleted Successfully.";
+        a.Close();
+
+    }
     </script>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -61,6 +82,7 @@
         <input id="txtIn" runat="server" placeholder="Insert In To Data" /><br /><br /><br />
         <input id="btnTotal" runat="server" value="Total" type="submit" onserverclick="btnTotal_Click" /><br /><br /><br />
         <input id="btnInsert" runat="server" value="Insert New Hardware In To The Database" type="submit" onserverclick="btnInsert_Click" />
+        <input id="btnDelete" runat="server" value="Delete Hardware From The Database" type="submit" onserverclick="btnDelete_Click" />
         <p id="parResult" runat="server" ></p>
         <a href="GameShow.aspx">To The ID Number Page</a>
     </form>
